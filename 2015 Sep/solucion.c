@@ -11,11 +11,13 @@ int main() {
 	pthread_mutex_init(&mutex, NULL);
 	pthread_cond_init (&cond, NULL);
 
+
+
 	pthread_mutex_destroy(&mutex);
 	pthread_cond_destroy(&cond);
 }
 
-void monja​(){
+void monje(){
 	int turno_salida;
 	while​(1){
 		//labor_en_cuestion
