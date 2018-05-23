@@ -1,8 +1,8 @@
-// 8 EQUIPOS DE 4 -> 32 NADADORES
-#define N 			32
+// 4 EQUIPOS DE 4 -> 16 CORREDORES
+#define N 			16
 
-//Equipo nº 	id_nadador / 4
-//Turno 		id_nadador % 4
+//Equipo nº 	id_corredor / 4
+//Turno 		id_corredor % 4
 
 int team_turn[8] = {0};		//Relevo de los equipos
 int count = 0;				//Contador para esperar a todos
@@ -20,23 +20,23 @@ int main() {
 	pthread_cond_destroy(&cond);
 }
 
-void nadador(int id_nadador){
-	begin_race(id_nadador);
-	swim(id_nadador);
-	notify_arrival(id_nadador);
+void corredor(int id_corredor){
+	start_race(id_corredor);
+	run(id_corredor);
+	notify_arrival(id_corredor);
 }
 
-void begin_race(int id_nadador){
+void start_race(int id_corredor){
 
 	pthread_mutex_lock(&mutex); 	//Bloqueamos el mutex
 	
 	count++;						//Sumamos 1 a la cola
 	
-	//Equipo nº 	id_nadador / 4
-	//Turno 		id_nadador % 4
+	//Equipo nº 	id_corredor / 4
+	//Turno 		id_corredor % 4
 
 	//Esperamos a todos y despues al turno
-	while (count != N || team_turn[id_nadador / 4] != (id_nadador % 4))
+	while (count != N || team_turn[id_corredor / 4] != (id_corredor % 4))
 		pthread_cond_wait(&cond, &mutex); /*bloqueo*/
 
 	if(count == N)					//Si estan todos despertamos a los demas
